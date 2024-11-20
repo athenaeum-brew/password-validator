@@ -14,7 +14,7 @@ import com.cthiebaud.passwordvalidator.ValidationResult;
 public class PasswordValidatorTester {
     public static void main(String[] args) throws Exception {
         if (args.length < 1) {
-            System.out.println("Usage: java PasswordValidatorTester <jar-path>");
+            System.out.println("Usage: java PasswordValidatorTester <path-to-the-jar-containing-your-implementation>");
             return;
         }
 
