@@ -16,8 +16,15 @@ The `ValidationResult` record represents the result of a password validation, co
 
 ### PasswordValidatorTester Class
 
-The `PasswordValidatorTester` class serves as the main entry point of the application. It dynamically loads and tests password validators implemented by students.
+The `PasswordValidatorTester` dynamically loads and tests password validators implemented by students.
 
+#### Usage
+
+To test your Password Validator Implementation, run the `PasswordValidatorTester` class and provide the necessary inputs as required.
+
+```bash
+java -jar password-validator-x.y.z.jar
+```
 
 ## TODO
 
@@ -45,9 +52,6 @@ Students are expected to:
 
 See [cthiebaud's password-validator-impl project](https://github.com/athenaeum-brew/password-validator-impl)
 
-## Usage
-
-To use the Password Validator, run the `PasswordValidatorTester` class and provide the necessary inputs as required.
 
 ## License
 
