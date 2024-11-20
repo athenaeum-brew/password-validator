@@ -64,16 +64,6 @@
     <build>
         <plugins>
             <plugin>
-                <!-- 
-                  mvn versions:display-dependency-updates
-                  mvn versions:display-plugin-updates
-                  mvn versions:use-latest-versions
-                -->
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>versions-maven-plugin</artifactId>
-                <version>2.17.1</version>
-            </plugin>
-            <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire}</version>
             </plugin>
@@ -85,29 +75,6 @@
                     <altDeploymentRepository>github-repo::default::https://maven.pkg.github.com/athenaeum-brew/maven-repo</altDeploymentRepository>
                 </configuration>
             </plugin>            
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>${maven.shade}</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <transformers>
-                                <transformer
-                                    implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>clear
-                                        
-                                    </mainClass>
-                                </transformer>
-                            </transformers>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 </project>
