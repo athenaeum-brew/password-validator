@@ -24,7 +24,7 @@ To test your Password Validator Implementation, download un run the jar password
 
 ```bash
 $ java -jar password-validator-x.y.z.jar
-$ Usage: java PasswordValidatorTester <path-to-the-jar-containing-your-implementation>
+$ Argument missing: <path-to-the-jar-containing-your-implementation>
 ```
 
 ## TODO
