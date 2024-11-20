@@ -19,7 +19,7 @@ The `ValidationResult` record represents the result of a password validation, co
 The `PasswordValidatorTester` class serves as the main entry point of the application. It dynamically loads and tests password validators implemented by students.
 
 
-## Deliverables
+## TODO
 
 Students are expected to:
 
@@ -28,6 +28,20 @@ Students are expected to:
 2. Include the implementation in a JAR file.
 3. Provide a description of the validation criteria used in their implementation.
 4. Ensure the `PasswordValidatorTester` class can successfully load and test their implementation.
+
+## Deliverables
+
+1. A JAR file containing the implementation.
+2. A pom.xml, that MUST contain 
+- a `<scm>` section that points to the source code of the project in Github
+- a `<developers>` section that lists the Github IDs of the students involved in the project
+- cf. [the example implementation](https://github.com/athenaeum-brew/password-validator-impl/blob/main/pom.xml)
+3. Jar and pom.xml files MUST be pushed to [athenaeum-brew maven repo](https://github.com/orgs/athenaeum-brew/packages), such as described in the ["Collaborative Artifact Sharing in Maven using GitHub"](https://athenaeum.cthiebaud.com/index0.html?%2Fexercises%2F11.md) exercice
+4. Validation criteria MUST be described in a README file at the root of the Github project
+- README format can be any of [plain text, markdown, pdf, latex]. Please do not use exotic formats such as Microsoft Word
+5. Source code MUST contain javadoc comments
+6. Implementation MUST be unit tested
+
 
 ## Usage
 
