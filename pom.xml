@@ -18,6 +18,18 @@
         </repository>
     </distributionManagement>
     
+    <repositories>
+        <repository>
+            <id>github-repo</id>
+            <url>https://maven.pkg.github.com/athenaeum-brew/maven-repo</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
     <properties>
         <!-- miscellaneous -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
