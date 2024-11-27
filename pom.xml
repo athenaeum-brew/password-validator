@@ -21,7 +21,7 @@
 
     <scm>
         <url>https://github.com/athenaeum-brew/password-validator-impl</url>
-        <developerConnection>scm:git:ssh://git@github.com:athenaeum-brew/password-validator-impl.git</developerConnection>
+        <developerConnection>scm:git:git://git@github.com/athenaeum-brew/password-validator-impl.git</developerConnection>
         <tag>HEAD</tag> <!-- HEAD means the latest commit, can be replaced by a specific version or branch if required -->
     </scm>
 
