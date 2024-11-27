@@ -52,7 +52,10 @@ public class PasswordValidatorTester {
 
         // Loop to validate passwords
         while (true) {
-            char[] passwordArray = console.readPassword("Enter a password to validate (or type 'quit' to exit): ");
+            String prompt = validator.prompt();
+            char[] passwordArray = console.readPassword(
+                    prompt != null && !prompt.isBlank() ? prompt
+                            : "Enter a password to validate (or type 'quit' to exit): ");
             String password = new String(passwordArray);
 
             // Check if the user wants to quit

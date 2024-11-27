@@ -24,9 +24,17 @@ public interface PasswordValidator {
     ValidationResult validate(String potentialPassword);
 
     /**
-     * Describes the validation criteria of this PasswordValidator.
+     * Provides the prompt message to display to the user before requesting password
+     * entry.
      * 
-     * @return A string description of the validation criteria.
+     * <p>
+     * The prompt message is intended to inform the user of the password
+     * requirements
+     * or other relevant details before they input their password. Implementations
+     * of this method should return a clear and user-friendly message.
+     * </p>
+     * 
+     * @return a {@code String} containing the prompt message to display to the user
      */
-    // String describe();
+    String prompt();
 }
