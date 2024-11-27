@@ -1,7 +1,13 @@
 package com.cthiebaud;
 
-import java.io.Console;
+import org.jline.reader.LineReader;
+import org.jline.reader.LineReaderBuilder;
+import org.jline.terminal.Terminal;
+import org.jline.terminal.TerminalBuilder;
+
 import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -12,6 +18,7 @@ import com.cthiebaud.passwordvalidator.PasswordValidator;
 import com.cthiebaud.passwordvalidator.ValidationResult;
 
 public class PasswordValidatorTester {
+
     public static void main(String[] args) throws Exception {
         if (args.length < 1) {
             System.out.println("Argument missing: <path-to-the-jar-containing-your-implementation>");
@@ -43,37 +50,44 @@ public class PasswordValidatorTester {
         // Create an instance of the student's implementation
         PasswordValidator validator = (PasswordValidator) clazz.getDeclaredConstructor().newInstance();
 
-        // Get console for hidden input
-        Console console = System.console();
-        if (console == null) {
-            System.out.println("No console available. Please run this in a console.");
-            return;
+        // Check if the `prompt()` method exists
+        Method promptMethod = null;
+        try {
+            promptMethod = clazz.getMethod("prompt");
+        } catch (NoSuchMethodException e) {
+            System.out.println("Warning: `prompt()` method not found. Using default prompt.");
         }
 
-        // Loop to validate passwords
-        while (true) {
-            String prompt = validator.prompt();
-            char[] passwordArray = console.readPassword(
-                    prompt != null && !prompt.isBlank() ? prompt
-                            : "Enter a password to validate (or type 'quit' to exit): ");
-            String password = new String(passwordArray);
+        // Initialize the terminal and use it with try-with-resources
+        try (Terminal terminal = TerminalBuilder.builder().system(true).build()) {
+            LineReader lineReader = LineReaderBuilder.builder().terminal(terminal).build();
 
-            // Check if the user wants to quit
-            if ("quit".equalsIgnoreCase(password)) {
-                System.out.println("Exiting the program.");
-                break;
+            // Loop to validate passwords
+            while (true) {
+                String prompt = getPrompt(validator, promptMethod);
+                String password = readPasswordWithAsterisks(lineReader,
+                        prompt != null && !prompt.isBlank() ? prompt
+                                : "Enter a password to validate (or type 'quit' to exit): ");
+
+                // Check if the user wants to quit
+                if ("quit".equalsIgnoreCase(password)) {
+                    System.out.println("\nExiting the program.");
+                    break;
+                }
+
+                // Validate the password using the student's implementation
+                ValidationResult result = validator.validate(password);
+
+                // Display the result
+                if (result.isValid()) {
+                    printBigOK();
+                    break;
+                } else {
+                    System.out.println("\nPassword is invalid: " + result.message());
+                }
             }
-
-            // Validate the password using the student's implementation
-            ValidationResult result = validator.validate(password);
-
-            // Display the result
-            if (result.isValid()) {
-                printBigOK();
-                break;
-            } else {
-                System.out.println("Password is invalid: " + result.message());
-            }
+        } catch (IOException e) {
+            System.out.println("Error initializing terminal: " + e.getMessage());
         }
     }
 
@@ -112,5 +126,37 @@ public class PasswordValidatorTester {
         System.out.println("|  `--'  | |  .  \\  |__| ");
         System.out.println(" \\______/  |__|\\__\\ (__) ");
         System.out.println("                         ");
+    }
+
+    /**
+     * Reads a password from the console, echoing '*' for each character typed.
+     * 
+     * @param lineReader The LineReader instance to use for reading input
+     * @param prompt     The prompt to display
+     * @return the password entered by the user
+     */
+    private static String readPasswordWithAsterisks(LineReader lineReader, String prompt) {
+        return lineReader.readLine(prompt, '*');
+    }
+
+    /**
+     * Gets the prompt string from the `PasswordValidator` implementation.
+     * If the `prompt()` method is not implemented, returns a default prompt.
+     * 
+     * @param validator    The `PasswordValidator` instance
+     * @param promptMethod The `Method` object for `prompt()` or null if not
+     *                     available
+     * @return The prompt string
+     */
+    private static String getPrompt(PasswordValidator validator, Method promptMethod) {
+        if (promptMethod != null) {
+            try {
+                return (String) promptMethod.invoke(validator);
+            } catch (Exception e) {
+                // System.err.println("Error invoking `prompt()` method. Using default
+                // prompt.");
+            }
+        }
+        return "(Using default prompt) Enter a password to validate (or type 'quit' to exit): ";
     }
 }

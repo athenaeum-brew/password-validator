@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.cthiebaud</groupId>
@@ -21,9 +23,8 @@
         <connection>scm:git:git@github.com:athenaeum-brew/password-validator.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/athenaeum-brew/password-validator.git</developerConnection>
         <url>https://github.com/athenaeum-brew/password-validator</url>
-      <tag>password-validator-1.0.0</tag>
-  </scm>
-
+        <tag>password-validator-1.0.0</tag>
+    </scm>
 
     <distributionManagement>
         <repository>
@@ -44,6 +45,7 @@
             </snapshots>
         </repository>
     </repositories>
+
     <properties>
         <!-- miscellaneous -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -64,7 +66,11 @@
 
     <dependencies>
         <!-- Dependencies -->
-
+        <dependency>
+            <groupId>org.jline</groupId>
+            <artifactId>jline</artifactId>
+            <version>3.27.1</version>
+        </dependency>
 
         <!-- Testing dependencies-->
         <dependency>
@@ -124,7 +130,30 @@
                     <remoteTagging>true</remoteTagging>
                 </configuration>
             </plugin>
-
+            <!-- Shade plugin to create an uber-JAR -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.4.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createDependencyReducedPom>true</createDependencyReducedPom>
+                            <transformers>
+                                <!-- Include the main class in the JAR's manifest -->
+                                <transformer
+                                    implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>com.cthiebaud.PasswordValidatorTester</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>
