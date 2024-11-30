@@ -17,8 +17,47 @@ import java.util.jar.JarFile;
 import com.cthiebaud.passwordvalidator.PasswordValidator;
 import com.cthiebaud.passwordvalidator.ValidationResult;
 
+/**
+ * A utility class for testing `PasswordValidator` implementations.
+ * 
+ * <p>
+ * This class dynamically loads a JAR file containing a custom implementation
+ * of the {@link PasswordValidator} interface, validates passwords, and
+ * provides interactive user input via the terminal.
+ * </p>
+ * 
+ * <p>
+ * The application expects the path to the JAR file as a command-line
+ * argument and ensures exactly one implementation of {@link PasswordValidator}
+ * is found in the JAR. If the `prompt()` method is implemented, it will be used
+ * to display custom prompts; otherwise, a default prompt is shown.
+ * </p>
+ * 
+ * <p>
+ * Password validation results are displayed interactively in the terminal.
+ * </p>
+ * 
+ * @author Christophe Thiebaud
+ */
 public class PasswordValidatorTester {
 
+    /**
+     * Default constructor.
+     * <p>
+     * This constructor is explicitly defined to satisfy Javadoc requirements.
+     * </p>
+     */
+    PasswordValidatorTester() {
+    }
+
+    /**
+     * The main entry point for the PasswordValidatorTester application.
+     *
+     * @param args Command-line arguments. The first argument should be the path
+     *             to the JAR file containing the PasswordValidator implementation.
+     * @throws Exception If an error occurs during JAR loading or class
+     *                   instantiation.
+     */
     public static void main(String[] args) throws Exception {
         if (args.length < 1) {
             System.out.println("Argument missing: <path-to-the-jar-containing-your-implementation>");
