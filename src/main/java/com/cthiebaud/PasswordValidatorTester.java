@@ -80,10 +80,13 @@ public class PasswordValidatorTester {
 
                 // Display the result
                 if (result.isValid()) {
+                    if (result.message() != null && !result.message().isBlank()) {
+                        System.out.println(result.message());
+                    }
                     printBigOK();
                     break;
                 } else {
-                    System.out.println("\nPassword is invalid: " + result.message());
+                    System.out.println("Password is invalid: " + result.message());
                 }
             }
         } catch (IOException e) {
