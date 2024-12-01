@@ -97,20 +97,21 @@ public class PasswordValidatorTester {
             System.out.println("Warning: `prompt()` method not found. Using default prompt.");
         }
 
+        /* test with invalid entry, i.e. null : must not crash */
+        try {
+            ValidationResult _ = validator.validate(null);
+        } catch (Exception e) {
+            if (!(e instanceof IllegalArgumentException)) {
+                System.out.println(YELLOW + "Null password should throw an IllegalArgumentException" + RESET);
+            }
+        }
+
         // Initialize the terminal and use it with try-with-resources
         try (Terminal terminal = TerminalBuilder.builder().system(true).build()) {
             LineReader lineReader = LineReaderBuilder.builder().terminal(terminal).build();
 
             // Loop to validate passwords
             while (true) {
-                /* test with invalid entry, i.e. null : must not crash */
-                try {
-                    ValidationResult _ = validator.validate(null);
-                } catch (Exception e) {
-                    if (!(e instanceof IllegalArgumentException)) {
-                        System.out.println(YELLOW + "Null password should throw an IllegalArgumentException" + RESET);
-                    }
-                }
 
                 String prompt = getPrompt(validator, promptMethod);
                 String password = readPasswordWithAsterisks(lineReader,
