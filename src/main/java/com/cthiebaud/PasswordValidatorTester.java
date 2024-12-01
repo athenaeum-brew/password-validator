@@ -103,12 +103,12 @@ public class PasswordValidatorTester {
         try {
             ValidationResult nullParameter = validator.validate(null);
             if (nullParameter.isValid()) {
-                throw new Exception("null parameter is not valid!");
+                throw new Exception("null parameter is not valid");
             }
         } catch (Exception e) {
             if (!(e instanceof IllegalArgumentException)) {
                 System.out.println(YELLOW
-                        + "Null password should throw an IllegalArgumentException or return in invalid result" + RESET);
+                        + "Null password should throw an IllegalArgumentException or return an invalid result" + RESET);
             }
         }
 
@@ -141,7 +141,7 @@ public class PasswordValidatorTester {
                     printBigOK();
                     break;
                 } else {
-                    System.out.println(RED + "😖 " + result.message() + RESET);
+                    System.out.println("😖 " + RED + result.message() + RESET);
                 }
             }
         } catch (IOException e) {
@@ -196,7 +196,12 @@ public class PasswordValidatorTester {
      * @return the password entered by the user
      */
     private static String readPasswordWithAsterisks(LineReader lineReader, String prompt) {
-        return lineReader.readLine(prompt, '*');
+        try {
+            return lineReader.readLine(prompt, '*');
+        } catch (org.jline.reader.UserInterruptException e) {
+            System.exit(-1);
+            return null;
+        }
     }
 
     /**
