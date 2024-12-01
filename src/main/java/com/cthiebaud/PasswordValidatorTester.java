@@ -126,7 +126,7 @@ public class PasswordValidatorTester {
 
                 // Check if the user wants to quit
                 if ("quit".equalsIgnoreCase(password)) {
-                    System.out.println(CYAN + "\nExiting the program." + RESET);
+                    System.out.println(PURPLE + "Exiting the program." + RESET);
                     break;
                 }
 
@@ -199,7 +199,7 @@ public class PasswordValidatorTester {
         try {
             return lineReader.readLine(prompt, '*');
         } catch (org.jline.reader.UserInterruptException e) {
-            System.out.println(YELLOW + "Operation interrupted by user. Exiting gracefully." + RESET);
+            System.out.println(PURPLE + "Operation interrupted by user. Exiting gracefully." + RESET);
             System.exit(-1);
             return null;
         }
