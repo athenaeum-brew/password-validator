@@ -134,14 +134,15 @@ public class PasswordValidatorTester {
                 ValidationResult result = validator.validate(password);
 
                 // Display the result
+                boolean messageNullOrEmpty = result.message() == null || result.message().isBlank();
                 if (result.isValid()) {
-                    if (result.message() != null && !result.message().isBlank()) {
-                        System.out.println(result.message());
+                    if (!messageNullOrEmpty) {
+                        System.out.println(GREEN + result.message() + RESET);
                     }
                     printBigOK();
                     break;
                 } else {
-                    System.out.println("😖 " + RED + result.message() + RESET);
+                    System.out.println(RED + (messageNullOrEmpty ? "😖" : result.message()) + RESET);
                 }
             }
         } catch (IOException e) {
@@ -198,7 +199,7 @@ public class PasswordValidatorTester {
     private static String readPasswordWithAsterisks(LineReader lineReader, String prompt) {
         try {
             return lineReader.readLine(prompt, '*');
-        } catch (org.jline.reader.UserInterruptException e) {
+        } catch (org.jline.reader.UserInterruptException | org.jline.reader.EndOfFileException e) {
             System.out.println(PURPLE + "Operation interrupted by user. Exiting gracefully." + RESET);
             System.exit(-1);
             return null;
@@ -217,13 +218,13 @@ public class PasswordValidatorTester {
     private static String getPrompt(PasswordValidator validator, Method promptMethod) {
         if (promptMethod != null) {
             try {
-                return (String) promptMethod.invoke(validator);
+                return BLUE + (String) promptMethod.invoke(validator) + RESET;
             } catch (Exception e) {
                 // System.err.println("Error invoking `prompt()` method. Using default
                 // prompt.");
             }
         }
-        return BLUE + "(Using default prompt) Enter a password to validate (or type 'quit' to exit): " + RESET;
+        return BLUE + "Enter a password to validate (or type 'quit' to exit): " + RESET;
     }
 
 }
