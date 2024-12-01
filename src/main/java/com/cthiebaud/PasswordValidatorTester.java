@@ -141,7 +141,7 @@ public class PasswordValidatorTester {
                     printBigOK();
                     break;
                 } else {
-                    System.out.println(RED + "Password is invalid: " + result.message() + RESET);
+                    System.out.println(RED + "😖 " + result.message() + RESET);
                 }
             }
         } catch (IOException e) {
