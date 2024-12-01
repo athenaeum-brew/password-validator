@@ -177,11 +177,11 @@ public class PasswordValidatorTester {
     private static void printBigOK() {
         System.out.println(GREEN + """
                   ______    __  ___  __
-                 /  __  \\  |  |/  / |  |
+                 /  __  ∖  |  |/  / |  |
                 |  |  |  | |  '  /  |  |
                 |  |  |  | |    <   |  |
-                |  `--'  | |  .  \\  |__|
-                 \\______/  |__|\\__\\ (__)
+                |  `--'  | |  .  ∖  |__|
+                 ∖______/  |__|∖__∖ (__)
 
                 """ + RESET);
     }
