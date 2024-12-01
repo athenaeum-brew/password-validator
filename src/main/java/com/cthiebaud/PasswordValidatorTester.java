@@ -91,17 +91,11 @@ public class PasswordValidatorTester {
         // Create an instance of the student's implementation
         PasswordValidator validator = (PasswordValidator) clazz.getDeclaredConstructor().newInstance();
 
-        // Check if the `prompt()` method exists
-        Method promptMethod = null;
-        try {
-            promptMethod = clazz.getMethod("prompt");
-        } catch (NoSuchMethodException e) {
-            System.out.println(YELLOW + "Warning: `prompt()` method not found. Using default prompt." + RESET);
-        }
-
         /* test with invalid entry, i.e. null : must not crash, must not be valid */
         try {
-            ValidationResult nullParameter = validator.validate(null);
+            // Create an instance of the student's implementation
+            PasswordValidator nullValidator = (PasswordValidator) clazz.getDeclaredConstructor().newInstance();
+            ValidationResult nullParameter = nullValidator.validate(null);
             if (nullParameter.isValid()) {
                 throw new Exception("null parameter is not valid");
             }
@@ -110,6 +104,14 @@ public class PasswordValidatorTester {
                 System.out.println(YELLOW
                         + "Null password should throw an IllegalArgumentException or return an invalid result" + RESET);
             }
+        }
+
+        // Check if the `prompt()` method exists
+        Method promptMethod = null;
+        try {
+            promptMethod = clazz.getMethod("prompt");
+        } catch (NoSuchMethodException e) {
+            System.out.println(YELLOW + "Warning: `prompt()` method not found. Using default prompt." + RESET);
         }
 
         // Initialize the terminal and use it with try-with-resources

@@ -37,4 +37,14 @@ public interface PasswordValidator {
      * @return a {@code String} containing the prompt message to display to the user
      */
     String prompt();
+
+    /**
+     * Default method to provide an ExitHandler. Implementations can override this
+     * if needed.
+     *
+     * @return the default ExitHandler
+     */
+    default ExitHandler getExitHandler() {
+        return new DefaultExitHandler();
+    }
 }
