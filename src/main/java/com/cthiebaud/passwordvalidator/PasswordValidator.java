@@ -39,12 +39,16 @@ public interface PasswordValidator {
     String prompt();
 
     /**
-     * Default method to provide an ExitHandler. Implementations can override this
-     * if needed.
+     * Default method to provide an ExitHandler.
+     * It falls back on the {@link System#exit(int)} method.
+     * Implementations can override this if needed.
      *
      * @return the default ExitHandler
      */
+    // Provide a default ExitHandler implementation with a lambda
     default ExitHandler getExitHandler() {
-        return new DefaultExitHandler();
+        return status -> {
+            System.exit(status);
+        };
     }
 }
