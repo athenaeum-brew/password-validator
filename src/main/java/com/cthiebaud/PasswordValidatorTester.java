@@ -1,5 +1,7 @@
 package com.cthiebaud;
 
+import static com.cthiebaud.AsciiColors.*;
+
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
 import org.jline.terminal.Terminal;
@@ -60,7 +62,7 @@ public class PasswordValidatorTester {
      */
     public static void main(String[] args) throws Exception {
         if (args.length < 1) {
-            System.out.println("Argument missing: <path-to-the-jar-containing-your-implementation>");
+            System.out.println(RED + "Argument missing: <path-to-the-jar-containing-your-implementation>" + RESET);
             return;
         }
 
@@ -69,7 +71,7 @@ public class PasswordValidatorTester {
         // Load the student's JAR file
         File jarFile = new File(jarPath);
         if (!jarFile.exists()) {
-            System.out.println("JAR file not found!");
+            System.out.println(RED + "JAR file not found!" + RESET);
             return;
         }
 
@@ -78,8 +80,8 @@ public class PasswordValidatorTester {
 
         // Ensure exactly one implementation is found
         if (validatorClasses.size() != 1) {
-            System.out.println("Error: Expected exactly one implementation of PasswordValidator, found: "
-                    + validatorClasses.size());
+            System.out.println(RED + "Error: Expected exactly one implementation of PasswordValidator, found: "
+                    + validatorClasses.size() + RESET);
             return;
         }
 
@@ -94,7 +96,7 @@ public class PasswordValidatorTester {
         try {
             promptMethod = clazz.getMethod("prompt");
         } catch (NoSuchMethodException e) {
-            System.out.println("Warning: `prompt()` method not found. Using default prompt.");
+            System.out.println(YELLOW + "Warning: `prompt()` method not found. Using default prompt." + RESET);
         }
 
         /* test with invalid entry, i.e. null : must not crash, must not be valid */
@@ -120,11 +122,11 @@ public class PasswordValidatorTester {
                 String prompt = getPrompt(validator, promptMethod);
                 String password = readPasswordWithAsterisks(lineReader,
                         prompt != null && !prompt.isBlank() ? prompt
-                                : "Enter a password to validate (or type 'quit' to exit): ");
+                                : BLUE + "Enter a password to validate (or type 'quit' to exit): " + RESET);
 
                 // Check if the user wants to quit
                 if ("quit".equalsIgnoreCase(password)) {
-                    System.out.println("\nExiting the program.");
+                    System.out.println(CYAN + "\nExiting the program." + RESET);
                     break;
                 }
 
@@ -139,11 +141,11 @@ public class PasswordValidatorTester {
                     printBigOK();
                     break;
                 } else {
-                    System.out.println("Password is invalid: " + result.message());
+                    System.out.println(RED + "Password is invalid: " + result.message() + RESET);
                 }
             }
         } catch (IOException e) {
-            System.out.println("Error initializing terminal: " + e.getMessage());
+            System.out.println(RED + "Error initializing terminal: " + e.getMessage() + RESET);
         }
     }
 
@@ -215,10 +217,7 @@ public class PasswordValidatorTester {
                 // prompt.");
             }
         }
-        return "(Using default prompt) Enter a password to validate (or type 'quit' to exit): ";
+        return BLUE + "(Using default prompt) Enter a password to validate (or type 'quit' to exit): " + RESET;
     }
 
-    public static final String RESET = "\u001B[0m"; // Resets color to default
-    public static final String YELLOW = "\u001B[33m";
-    public static final String GREEN = "\u001B[32m";
 }
