@@ -175,7 +175,7 @@ public class PasswordValidatorTester {
     }
 
     private static void printBigOK() {
-        System.out.print(YELLOW);
+        System.out.print(GREEN);
         System.out.println("  ______    __  ___  __  ");
         System.out.println(" /  __  \\  |  |/  / |  | ");
         System.out.println("|  |  |  | |  '  /  |  | ");
