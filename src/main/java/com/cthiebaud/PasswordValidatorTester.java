@@ -175,15 +175,15 @@ public class PasswordValidatorTester {
     }
 
     private static void printBigOK() {
-        System.out.print(GREEN);
-        System.out.println("  ______    __  ___  __  ");
-        System.out.println(" /  __  \\  |  |/  / |  | ");
-        System.out.println("|  |  |  | |  '  /  |  | ");
-        System.out.println("|  |  |  | |    <   |  | ");
-        System.out.println("|  `--'  | |  .  \\  |__| ");
-        System.out.println(" \\______/  |__|\\__\\ (__) ");
-        System.out.println("                         ");
-        System.out.print(RESET);
+        System.out.println(GREEN + """
+                  ______    __  ___  __
+                 /  __  \\  |  |/  / |  |
+                |  |  |  | |  '  /  |  |
+                |  |  |  | |    <   |  |
+                |  `--'  | |  .  \\  |__|
+                 \\______/  |__|\\__\\ (__)
+
+                """ + RESET);
     }
 
     /**
