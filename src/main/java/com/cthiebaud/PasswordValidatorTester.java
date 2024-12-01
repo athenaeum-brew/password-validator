@@ -97,12 +97,16 @@ public class PasswordValidatorTester {
             System.out.println("Warning: `prompt()` method not found. Using default prompt.");
         }
 
-        /* test with invalid entry, i.e. null : must not crash */
+        /* test with invalid entry, i.e. null : must not crash, must not be valid */
         try {
-            ValidationResult _ = validator.validate(null);
+            ValidationResult nullParameter = validator.validate(null);
+            if (nullParameter.isValid()) {
+                throw new Exception("null parameter is not valid!");
+            }
         } catch (Exception e) {
             if (!(e instanceof IllegalArgumentException)) {
-                System.out.println(YELLOW + "Null password should throw an IllegalArgumentException" + RESET);
+                System.out.println(YELLOW
+                        + "Null password should throw an IllegalArgumentException or return in invalid result" + RESET);
             }
         }
 
@@ -171,6 +175,7 @@ public class PasswordValidatorTester {
     }
 
     private static void printBigOK() {
+        System.out.print(YELLOW);
         System.out.println("  ______    __  ___  __  ");
         System.out.println(" /  __  \\  |  |/  / |  | ");
         System.out.println("|  |  |  | |  '  /  |  | ");
@@ -178,6 +183,7 @@ public class PasswordValidatorTester {
         System.out.println("|  `--'  | |  .  \\  |__| ");
         System.out.println(" \\______/  |__|\\__\\ (__) ");
         System.out.println("                         ");
+        System.out.print(RESET);
     }
 
     /**
@@ -214,4 +220,5 @@ public class PasswordValidatorTester {
 
     public static final String RESET = "\u001B[0m"; // Resets color to default
     public static final String YELLOW = "\u001B[33m";
+    public static final String GREEN = "\u001B[32m";
 }
