@@ -104,7 +104,13 @@ public class PasswordValidatorTester {
             // Loop to validate passwords
             while (true) {
                 /* test with invalid entry, i.e. null : must not crash */
-                ValidationResult testWithNull = validator.validate(null);
+                try {
+                    ValidationResult _ = validator.validate(null);
+                } catch (Exception e) {
+                    if (!(e instanceof IllegalArgumentException)) {
+                        System.out.println(YELLOW + "Null password should throw an IllegalArgumentException" + RESET);
+                    }
+                }
 
                 String prompt = getPrompt(validator, promptMethod);
                 String password = readPasswordWithAsterisks(lineReader,
@@ -204,4 +210,7 @@ public class PasswordValidatorTester {
         }
         return "(Using default prompt) Enter a password to validate (or type 'quit' to exit): ";
     }
+
+    public static final String RESET = "\u001B[0m"; // Resets color to default
+    public static final String YELLOW = "\u001B[33m";
 }
