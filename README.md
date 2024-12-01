@@ -20,10 +20,10 @@ The `PasswordValidatorTester` dynamically loads and tests password validators im
 
 #### Usage
 
-To test your Password Validator Implementation, download un run the jar password-validator from [athenaeum-brew/maven-repo](https://github.com/athenaeum-brew/maven-repo/packages/2291424) and provide the necessary input(s) as required.
+To test your Password Validator Implementation, download the version 1.0.0 of the password-validator jar from [athenaeum-brew/maven-repo](https://github.com/athenaeum-brew/maven-repo/packages/2328098?version=1.0.0) and provide the necessary input(s) as required.
 
 ```bash
-$ java -jar password-validator-x.y.z.jar
+$ java -jar password-validator-1.0.0.jar
 $ Argument missing: <path-to-the-jar-containing-your-implementation>
 ```
 
