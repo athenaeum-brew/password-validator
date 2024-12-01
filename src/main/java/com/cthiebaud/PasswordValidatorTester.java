@@ -103,6 +103,9 @@ public class PasswordValidatorTester {
 
             // Loop to validate passwords
             while (true) {
+                /* test with invalid entry, i.e. null : must not crash */
+                ValidationResult testWithNull = validator.validate(null);
+
                 String prompt = getPrompt(validator, promptMethod);
                 String password = readPasswordWithAsterisks(lineReader,
                         prompt != null && !prompt.isBlank() ? prompt
