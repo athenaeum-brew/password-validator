@@ -9,16 +9,13 @@ import org.jline.terminal.TerminalBuilder;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.jar.JarFile;
 
-import com.cthiebaud.passwordvalidator.ExitHandler;
 import com.cthiebaud.passwordvalidator.PasswordValidator;
 import com.cthiebaud.passwordvalidator.ValidationResult;
 
@@ -91,7 +88,7 @@ public class PasswordValidatorTester {
         // Use the found implementation
         Class<?> clazz = validatorClasses.get(0);
 
-        /* test with invalid entry, i.e. null : must not crash, must not be valid */
+        /* test with null: can throw IllegalArgumentException, or be invalid */
         try {
             // Create an instance of the student's implementation
             PasswordValidator nullValidator = (PasswordValidator) clazz.getDeclaredConstructor().newInstance();
@@ -107,7 +104,7 @@ public class PasswordValidatorTester {
         }
 
         // Create an instance of the student's implementation
-        PasswordValidator wrappedValidator = (PasswordValidator) clazz.getDeclaredConstructor().newInstance();
+        PasswordValidator validator = (PasswordValidator) clazz.getDeclaredConstructor().newInstance();
 
         // Check if the `prompt()` method exists
         Method promptMethod = null;
@@ -124,10 +121,8 @@ public class PasswordValidatorTester {
             // Loop to validate passwords
             while (true) {
 
-                String prompt = getPrompt(wrappedValidator, promptMethod);
-                String password = readPasswordWithAsterisks(lineReader,
-                        prompt != null && !prompt.isBlank() ? prompt
-                                : BLUE + "Enter a password to validate (or type 'quit' to exit): " + RESET);
+                String prompt = getPrompt(validator, promptMethod);
+                String password = readPasswordWithAsterisks(lineReader, prompt);
 
                 // Check if the user wants to quit
                 if ("quit".equalsIgnoreCase(password)) {
@@ -136,7 +131,7 @@ public class PasswordValidatorTester {
                 }
 
                 // Validate the password using the student's implementation
-                ValidationResult result = wrappedValidator.validate(password);
+                ValidationResult result = validator.validate(password);
 
                 // Display the result
                 boolean messageNullOrEmpty = result.message() == null || result.message().isBlank();
@@ -204,7 +199,8 @@ public class PasswordValidatorTester {
     private static String readPasswordWithAsterisks(LineReader lineReader, String prompt) {
         try {
             return lineReader.readLine(prompt, '*');
-        } catch (org.jline.reader.UserInterruptException | org.jline.reader.EndOfFileException e) {
+        } catch (/* CTRL-C */ org.jline.reader.UserInterruptException |
+        /* ........ CTRL-D */ org.jline.reader.EndOfFileException e) {
             System.out.println(PURPLE + "Operation interrupted by user. Exiting gracefully." + RESET);
             System.exit(-1);
             return null;
@@ -221,16 +217,19 @@ public class PasswordValidatorTester {
      * @return The prompt string
      */
     private static String getPrompt(PasswordValidator validator, Method promptMethod) {
+        String prompt = "Enter a password to validate (or type 'quit' to exit): ";
         if (promptMethod != null) {
             try {
                 String p = (String) promptMethod.invoke(validator);
-                return BLUE + p + RESET;
+                if (p != null && !p.isBlank()) {
+                    prompt = p;
+                }
             } catch (Exception e) {
                 // System.err.println("Error invoking `prompt()` method. Using default
                 // prompt.");
             }
         }
-        return BLUE + "Enter a password to validate (or type 'quit' to exit): " + RESET;
+        return BLUE + prompt + RESET;
     }
 
 }
