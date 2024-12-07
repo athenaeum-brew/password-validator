@@ -115,14 +115,17 @@ public class PasswordValidatorTester {
         }
 
         // Initialize the terminal and use it with try-with-resources
-        try (Terminal terminal = TerminalBuilder.builder().system(true).build()) {
+        try (Terminal terminal = TerminalBuilder.builder().dumb(true).system(true).build()) {
             LineReader lineReader = LineReaderBuilder.builder().terminal(terminal).build();
+
+            lineReader.setOpt(LineReader.Option.DISABLE_EVENT_EXPANSION);
 
             // Loop to validate passwords
             while (true) {
 
                 String prompt = getPrompt(validator, promptMethod);
                 String password = readPasswordWithAsterisks(lineReader, prompt);
+                System.out.println("###> |" + password + "|");
 
                 // Check if the user wants to quit
                 if ("quit".equalsIgnoreCase(password)) {
