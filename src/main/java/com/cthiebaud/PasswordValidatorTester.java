@@ -118,8 +118,6 @@ public class PasswordValidatorTester {
         try (Terminal terminal = TerminalBuilder.builder().dumb(true).system(true).build()) {
             LineReader lineReader = LineReaderBuilder.builder().terminal(terminal).build();
 
-            lineReader.setOpt(LineReader.Option.DISABLE_EVENT_EXPANSION);
-
             // Loop to validate passwords
             while (true) {
 
