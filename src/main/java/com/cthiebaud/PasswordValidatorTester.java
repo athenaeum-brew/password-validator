@@ -123,7 +123,6 @@ public class PasswordValidatorTester {
 
                 String prompt = getPrompt(validator, promptMethod);
                 String password = readPasswordWithAsterisks(lineReader, prompt);
-                System.out.println("###> |" + password + "|");
 
                 // Check if the user wants to quit
                 if ("quit".equalsIgnoreCase(password)) {
